@@ -6,14 +6,14 @@ import operator
 import re
 from nltk.tokenize import sent_tokenize
 def get_link(pdfPath):
-    # 获取相关文件路径
-    pwd = os.path.dirname(os.path.abspath(__file__)) # 当前文件路径
-    father_path = os.path.abspath(os.path.dirname(pwd) + os.path.sep + ".") # 当前文件的父路径
-    exePath = os.path.join(father_path, 'tool', 'pdftoxml.exe') # pdf2xml 路径
+
+    pwd = os.path.dirname(os.path.abspath(__file__)) 
+    father_path = os.path.abspath(os.path.dirname(pwd) + os.path.sep + ".") 
+    exePath = os.path.join(father_path, 'tool', 'pdftoxml.exe') 
     pdfname = os.path.basename(pdfPath).split('.')[0]
     htmlName = pdfname + '.html'
-    htmlPath = os.path.join(father_path, 'html', htmlName) # 将pdf转化为html存储的路径
-    # 执行pdf2xml工具
+    htmlPath = os.path.join(father_path, 'html', htmlName) 
+    # run pdf2xml
     run_exe = exePath + ' ' + '-noImage -noImageInline' + ' ' + pdfPath + ' ' + htmlPath
     os.system(run_exe)
 
@@ -136,16 +136,6 @@ def get_link(pdfPath):
                                 now_fs = max(fsizes, key=fsizes.get)
                                 tests_list = texts.findall('TOKEN')
                                 for pos in range(len(tests_list)):
-                                    # # print( str(pos) + ' ' + str(tests_list[pos].text) + ' ' + str(tests_list[pos].attrib['font-size']) + ' ' + tests_list[pos].attrib['x'] + ' ' + tests_list[pos].attrib['y'])
-                                    # if float(tests_list[pos].attrib['x']) == 389.023 :# and tests_list[pos].attrib['y'] == 539.462:
-                                    #     print(tests_list[pos].text)
-                                    #     print(footnote_num)
-                                    #     print(tests_list[pos].text == footnote_num)
-                                    #     print(now_fs == max_fs)
-                                    # if  str(tests_list[pos].text) == footnote_num and now_fs == max_fs:
-                                    #     link_info['x'] = tests_list[pos].attrib['x']
-                                    #     link_info['y'] = tests_list[pos].attrib['y']
-                                    #     pre_footnote_list.append(link_info)
 
                                     if (pos == 0 or float(tests_list[pos-1].attrib['y']) > float(tests_list[pos].attrib['y']) )and \
                                            (pos == len(tests_list) - 1 or float(tests_list[pos + 1].attrib['y']) > float(tests_list[pos].attrib['y'])) and \
@@ -245,8 +235,7 @@ def get_link(pdfPath):
                     ALL_paragraph[pos1][pos2] = unicodedata.normalize('NFKD', j)
                 except :
                     continue
-        # print(i)
-        # print()
+        
   
     for i in pre_footnote_list:
         link_info = {

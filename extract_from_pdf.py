@@ -4,13 +4,14 @@ import sys
 import json
 import re
 import xml.etree.ElementTree as ET
+import argparse
 sys.path.append(os.path.abspath(__file__))
 from src.link import get_link
 
 import datetime
 
 def extract(pdfPath):
-    # 定义数据类型
+    # define dataframe
     starttime = datetime.datetime.now()
     data = {
         'resource': None,
@@ -23,7 +24,7 @@ def extract(pdfPath):
     }
     pdf_content_list = []
 
-    # 2. 使用pdf2xml工具来抽取link，context
+    # 2. using pdf2xml to extract the sentences containing the citations and the corresponding hyperlinks
     footnote_list, bodytext_list = get_link(pdfPath)
 
     for i in footnote_list:
@@ -65,5 +66,9 @@ def gci(filepath):
                     fp.write(json.dumps(result) + '\n')
                             
 if __name__ == '__main__':
-    gci('C://Users//admin//Desktop//pdf2xml//pdf')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input_path', dest='input_path', type=str, required=True, help='input pdf path')
+    args = parser.parse_args()
+    gci(args.input_path)
+
 
